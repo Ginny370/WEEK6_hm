@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub & Ocean Acidification"
-author: "Jingyi Pei + u7457361"
+author: "Jingyi Pei + u7457361+"
 date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
