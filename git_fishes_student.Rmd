@@ -54,7 +54,7 @@ This task involves cloning your repository on your computer. Where should we pla
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
 ## Write your answer here. 
-Because I create a public folder in GitHub and everyone comes to my folder to see it and modify it. But everytime I modify my code I need to upload it. And if we just forget to upload, it may be cause some problem
+Everytime I need to modify my code, I need to save it on my own computer, save it in GitHub Desktop and upload it into the GitHub. So it can not be automatically change on the GitHub website and record each steps of mordification.
 ```
 
 I'd usually suggest placing your repo in a cloud storage system like, *OneDrive*, *Dropbox*, or *GoogleDrive*. These will ensure that all your files are backed up and *GitHub* will provide a record of the detailed history. 
@@ -65,6 +65,7 @@ Before moving on you might have noticed that the code block above has a name `an
 
 ```{r answer2, echo=TRUE, eval = FALSE}
 # Write your answer here
+If we change echo = TRUE to echo = FALSE, it means that we want to have the answer with this block. Acturally we just write some explaintion of answers instead of some code that can run for some purpose.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -91,11 +92,15 @@ Make sure you have added a `data/` folder to your working directory that you jus
 
 Write your answer in the code chunk below:
 
+```{r}
+getwd()
+```
+
 ```{r, loaddata, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path to a file in the 'data/' folder"
+path <- "./data/OA_activitydat_20190302_BIOL3207.csv"
   
-data <- read_csv(path)
+data <- read.csv(path)
 
 ```
 
@@ -105,9 +110,9 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 ```{r, write, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path"
+path <- "./output/data/OA_activitydat_20190302_BIOL3207.csv"
 
-write_csv(data, file = path)
+write.csv(data, file = path)
 
 ```
 
@@ -117,17 +122,24 @@ write_csv(data, file = path)
 We're ready for some coding! Lets do some coding and wrangling of the `OA_activitydat_20190302_BIOL3207.csv` data that we will use for the workshop. Note above, the `loaddata` code chunk should have already written the code to load the data file. At this point, we're assuming it's in your working space. If not, make sure you run the `loaddata` code chunk. 
 
 First, write some code below to remove missing data
+```{r}
+library(tidyverse)
+sum(is.na(data))
+complete.cases(data)
+```
+
 
 ```{r, rmMiss}
 # Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame. 
 
+data1 <- data %>% filter(!(is.na(activity))) %>% filter(!(is.na(animal_id)))
 ```
 
 Second, drop out irrelevant columns and check that there are no spelling issues in `species` and `treatment`. Create a table of summary data that includes: 1) the mean, 2) the standard error and 3) the sample sizes of unique fish across ALL six fish species for each treatment. This will also help you detect any spelling errors. You can use the R package [`flextable`](https://ardata-fr.github.io/flextable-book/) to print out the results in a nice neat format! If you haven't heard about `flextable` spend 10 or so minutes having a look at it's functionality. It's incredible! You'll use this for tables throughout.
 
 ```{r summaryTab}
 # Drop irrelevant columns
-
+data2 <- data1 %>% select(species, treatment)
 # Check spelling in species and treatment but also generate a summary table
 
 # Use flextable to render the summary table in a tidy format
