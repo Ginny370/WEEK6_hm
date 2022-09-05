@@ -148,20 +148,26 @@ data2 <- data1 %>% select(species, treatment, animal_id, activity)
 # Check spelling in species and treatment but also generate a summary table
 spell_check_files("./data/OA_activitydat_20190302_BIOL3207.csv", lang = "en_US")
 data2 %>% count(species)
+
 mean <- aggregate(x = data2$activity,by=list(species = data2$species), mean)
 colnames(mean) <- c("species","mean")
+
 std.error <- aggregate(x = data2$activity,by=list(sepcies = data2$species), std.error)
 colnames(std.error) <- c("species","std.error")
-tab <- merge(x = mean, y = std.error)
+
+tab1 <- merge(x = mean, y = std.error)
+control <- data2 %>% filter(treatment == "control") %>% count(species)
+colnames(control) <- c("species","control")
+treated <- data2 %>% filter(treatment == "CO2") %>% count(species)
+colnames(treated) <- c("species","treated")
+tab2 <- merge(x = control, y = treated)
+
+tab <- merge(x = tab1, y = tab2)
+```
+
+```{r}
 # Use flextable to render the summary table in a tidy format
 ft <- flextable(tab)
-ft <- add_header_row(ft,
-  colwidths = c(4, 2),
-  values = c("Species", "Mean", 'Standard error')
-)
-ft <- theme_vanilla(ft)
-ft <- color(ft, part = "footer", color = "#666666")
-ft <- set_caption(ft, caption = "Basic data analysis")
 ft
 ```
 
@@ -171,6 +177,7 @@ ft
 
 ```{r answer5, echo=TRUE, eval=FALSE}
 ## Write your answer here....remember to use '#" in front of your text.
+
 ```
 
 # **Task 5**
