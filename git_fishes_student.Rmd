@@ -195,7 +195,7 @@ ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + geom_boxplo
 
 ```{r, prettyfig, fig.align='center', fig.cap="add a legend here"}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
-ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + annotation_raster(rainbow) + geom_boxplot() + facet_wrap(~species)
+ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + annotation_raster(rainbow, interpolate = FALSE) + geom_point() + geom_jitter() + facet_wrap(~species)
 
 #something wrong with annotation_raster
 ```
@@ -214,7 +214,7 @@ ggsave('output/figures/activity_by_treatment_species.png',width = 10, height = 6
 
 ```{r}
 ## Write your answer here
-
+I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop*.  
 ```
 
 Last question for this task. I promise! It's important to think very carefully about what you track and ignore.
@@ -223,6 +223,7 @@ Last question for this task. I promise! It's important to think very carefully a
 
 ```{r, answer6}
 ## Add your answer here
+No, because when I need to check each png file, I need to open each of them separately. It will become more tired to check each of them.
 ```
 
 # **Task 6**
