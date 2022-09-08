@@ -54,7 +54,7 @@ This task involves cloning your repository on your computer. Where should we pla
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
 ## Write your answer here. 
-Everytime I need to modify my code, I need to save it on my own computer, save it on GitHub Desktop and upload it into the GitHub websites. So it can not be automatically change on the GitHub website and record each steps of mordification. While other cloud storage system can automatically save my changes.
+#Everytime I need to modify my code, I need to save it on my own computer, save it on GitHub Desktop and upload it into the GitHub websites. So it can not be automatically change on the GitHub website and record each steps of mordification. While other cloud storage system can automatically save my changes.
 ```
 
 I'd usually suggest placing your repo in a cloud storage system like, *OneDrive*, *Dropbox*, or *GoogleDrive*. These will ensure that all your files are backed up and *GitHub* will provide a record of the detailed history. 
@@ -65,7 +65,7 @@ Before moving on you might have noticed that the code block above has a name `an
 
 ```{r answer2, echo=TRUE, eval = FALSE}
 # Write your answer here
-If we change echo = TRUE to echo = FALSE, it means that we want to have both code and result in our rmarkdown file.
+#If we change echo = TRUE to echo = FALSE, it means that we want to have both code and result in our rmarkdown file.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -177,7 +177,7 @@ ft
 
 ```{r answer5, echo=TRUE, eval=FALSE}
 ## Write your answer here....remember to use '#" in front of your text.
-The green is what I add into in my code, and the red is what I change in my code.
+#The green is what I add into in my code, and the red is what I change in my code.
 ```
 
 # **Task 5**
@@ -214,7 +214,7 @@ ggsave('output/figures/activity_by_treatment_species.png',width = 10, height = 6
 
 ```{r, don't know the change}
 ## Write your answer here
-I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop*.  
+#I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop*.  
 ```
 
 Last question for this task. I promise! It's important to think very carefully about what you track and ignore.
@@ -223,7 +223,7 @@ Last question for this task. I promise! It's important to think very carefully a
 
 ```{r, answer6}
 ## Add your answer here
-No, because when I need to check each png file, I need to open each of them separately. It will become more tired to check each of them.
+#No, because when I need to check each png file, I need to open each of them separately. It will become more tired to check each of them.
 ```
 
 # **Task 6**
@@ -234,7 +234,7 @@ Now, lets create a new figure in the code block below that simplifies the one pr
 ```{r, collabFig, echo=TRUE, eval=TRUE}
 # You want to make changes to your collaborators figure in Task 5. Maybe you want to create a figure that focuses only on three fish species instead of the 5. More specifically, chromis, lemon, and acantho. Add code here to revise their figure to do that.
 data3 <- data2 %>% filter(species == c("chromis", "lemon", "acantho"))
-ggplot(data3, aes(x = treatment, y = activity, color = treatment)) + geom_boxplot() + facet_wrap(~species)
+ggplot(data3, aes(x = treatment, y = activity, color = treatment)) + geom_boxplot() + labs(title = "collabFig") + facet_wrap(~species) 
 ```
 
 
