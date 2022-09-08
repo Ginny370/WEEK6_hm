@@ -212,7 +212,7 @@ ggsave('output/figures/activity_by_treatment_species.png',width = 10, height = 6
 
 >**Question 6**: Given that you have added `output/figures/` to your `.gitignore` file describe what you notice about what you see in *GitHub Desktop*. 
 
-```{r}
+```{r, don't know the change}
 ## Write your answer here
 I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop*.  
 ```
@@ -233,6 +233,8 @@ Now, lets create a new figure in the code block below that simplifies the one pr
 
 ```{r, collabFig, echo=TRUE, eval=TRUE}
 # You want to make changes to your collaborators figure in Task 5. Maybe you want to create a figure that focuses only on three fish species instead of the 5. More specifically, chromis, lemon, and acantho. Add code here to revise their figure to do that.
+data3 <- data2 %>% filter(species == c("chromis", "lemon", "acantho"))
+ggplot(data3, aes(x = treatment, y = activity, color = treatment)) + geom_boxplot() + facet_wrap(~species)
 ```
 
 
