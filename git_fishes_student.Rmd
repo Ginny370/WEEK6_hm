@@ -135,8 +135,7 @@ complete.cases(data)
 
 
 ```{r, rmMiss}
-# Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame. 
-
+# Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame.
 data1 <- data %>% filter(!(is.na(activity))) %>% filter(!(is.na(animal_id)))
 ```
 
@@ -146,6 +145,7 @@ Second, drop out irrelevant columns and check that there are no spelling issues 
 # Drop irrelevant columns
 data2 <- data1 %>% select(species, treatment, animal_id, activity)
 # Check spelling in species and treatment but also generate a summary table
+data2 <- data2 %>% filter(!species == "whitedams")
 spell_check_files("./data/OA_activitydat_20190302_BIOL3207.csv", lang = "en_US")
 data2 %>% count(species)
 
@@ -165,7 +165,7 @@ tab2 <- merge(x = control, y = treated)
 tab <- merge(x = tab1, y = tab2)
 ```
 
-```{r some problem with function "flextable"}
+```{r}
 # Use flextable to render the summary table in a tidy format
 ft <- flextable(tab)
 ft
@@ -195,9 +195,12 @@ ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + geom_boxplo
 
 ```{r, prettyfig, fig.align='center', fig.cap="add a legend here"}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
-ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + annotation_raster(rainbow, interpolate = FALSE) + geom_point() + geom_jitter() + facet_wrap(~species)
-
-#something wrong with annotation_raster
+pics1 <- readPNG("./pics/acantho.png")
+pics2 <- readPNG("./pics/ambon.png")
+pics3 <- readPNG("./pics/chromis.png") 
+pics4 <- readPNG("./pics/humbug.png")
+pics5 <- readPNG("./pics/lemon.png")
+ggplot(data2, aes(x = species, y = activity, color = treatment)) + geom_boxplot() + geom_jitter() + annotation_raster(pics1, 0.5, 1.5, 5, 15, interpolate = FALSE) + annotation_raster(pics2, 1.5, 2.5, 45, 55, interpolate = FALSE) + annotation_raster(pics3, 2.5, 3.5, 46, 56, interpolate = FALSE) + annotation_raster(pics4, 3.5, 4.5, 5, 15, interpolate = FALSE) + annotation_raster(pics5, 4.5, 5.5, 3, 13, interpolate = FALSE)
 ```
 
 Note the code chunk used to make the figure. It has a `fig.cap` argument. That means Rmarkdown knows it's a figure and it will allow you to create a figure reference call. In other words, we can refer to our Figure \@ref(fig:prettyfig) by referring to the label for the chunk. This will automatically make a legend for us too (assuming you add one in). The same concept applied to Tables but the legend goes above these.
@@ -260,9 +263,12 @@ Once you have figured out how to create and solve conflicts it's time to update 
 **Task**: Provide details about the workflow (i.e., which files are used, when and why) and write a detailed description of the data file used. Include the details about what the column means and which data file someone should use. 
 
 Think about what you would need to know to make sure you can replicate a study. Provide these details so they are easy to find on the README.
+###what we should do in r.
 
 # **Task 8**
 There's not too much to do in this task on the coding front! You just need to create a *GitHub* issue and create a 'To Do' list on *GitHub* for you and your collaborator. 
+### what should we do?
+
 
 # **Task 9**
 Here, run some statistical tests to determine, for each species, whether the control vs high $CO^2$ treatments differ significantly from each other and in what direction. Provide the difference in means, their 95% confidence intervals, t-statistic, df and p-value. 
@@ -271,6 +277,7 @@ Here, run some statistical tests to determine, for each species, whether the con
 
 ```{r, stats, echo=TRUE, eval=TRUE}
 # Add your code here
+
 ```
 
 ```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "write a caption here"}
