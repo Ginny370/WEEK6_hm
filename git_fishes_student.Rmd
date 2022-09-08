@@ -92,7 +92,7 @@ Make sure you have added a `data/` folder to your working directory that you jus
 
 Write your answer in the code chunk below:
 
-```{r}
+```{r, echo=TRUE, eval = FALSE}
 getwd()
 ```
 
@@ -122,30 +122,30 @@ write.csv(data, file = path)
 We're ready for some coding! Lets do some coding and wrangling of the `OA_activitydat_20190302_BIOL3207.csv` data that we will use for the workshop. Note above, the `loaddata` code chunk should have already written the code to load the data file. At this point, we're assuming it's in your working space. If not, make sure you run the `loaddata` code chunk. 
 
 First, write some code below to remove missing data
-```{r, library some package}
+```{r, library some package, echo=TRUE, eval = FALSE}
 library(tidyverse)
 library(spelling)
 library(plotrix)
 ```
 
-```{r,remove}
+```{r,remove, echo=TRUE, eval = FALSE}
 sum(is.na(data))
 complete.cases(data)
 ```
 
 
-```{r, rmMiss}
+```{r, rmMiss, echo=TRUE, eval = FALSE}
 # Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame.
 data1 <- data %>% filter(!(is.na(activity))) %>% filter(!(is.na(animal_id)))
 ```
 
 Second, drop out irrelevant columns and check that there are no spelling issues in `species` and `treatment`. Create a table of summary data that includes: 1) the mean, 2) the standard error and 3) the sample sizes of unique fish across ALL six fish species for each treatment. This will also help you detect any spelling errors. You can use the R package [`flextable`](https://ardata-fr.github.io/flextable-book/) to print out the results in a nice neat format! If you haven't heard about `flextable` spend 10 or so minutes having a look at it's functionality. It's incredible! You'll use this for tables throughout.
 
-```{r summaryTab}
+```{r summaryTab, echo=TRUE, eval = FALSE}
 # Drop irrelevant columns
 data2 <- data1 %>% select(species, treatment, animal_id, activity)
 # Check spelling in species and treatment but also generate a summary table
-data2 <- data2 %>% filter(!species == "whitedams")
+data2_1 <- data2 %>% filter(!species == "whitedams")
 spell_check_files("./data/OA_activitydat_20190302_BIOL3207.csv", lang = "en_US")
 data2 %>% count(species)
 
@@ -165,7 +165,7 @@ tab2 <- merge(x = control, y = treated)
 tab <- merge(x = tab1, y = tab2)
 ```
 
-```{r}
+```{r, echo=TRUE, eval = FALSE}
 # Use flextable to render the summary table in a tidy format
 ft <- flextable(tab)
 ft
@@ -186,28 +186,29 @@ Ignoring figures can be important because they take up quite a lot of space in y
 
 `.gitignore` files are used to control what *Git* tracks and what it ignores. You should have created a new folder path: `output/figures/`. Write some code now to create a pretty figure using ggplot that shows the difference between control and acidification treatments for each of the fish species in the data set:
 
-```{r, prettyfig, fig.align='center', fig.cap="add a legend here"}
+```{r, prettyfig, fig.align='center', fig.cap="boxplot of each species", echo=TRUE, eval = FALSE}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
 ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + geom_boxplot() + facet_wrap(~species)
 ```
 
 **Stretch Task**: The Clark et al. 2020 paper plots some pretty pictures on their figures. You have access to a folder called "pics/". Add the pics of the difference species from the "pics/" folder to your new plot. Explore the function `annotation_raster()` which might help you achieve this goal.
 
-```{r, prettyfig, fig.align='center', fig.cap="add a legend here"}
+```{r, prettyfig, fig.align='center', fig.cap="boxpot with fishes", echo=TRUE, eval = FALSE}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
 pics1 <- readPNG("./pics/acantho.png")
 pics2 <- readPNG("./pics/ambon.png")
 pics3 <- readPNG("./pics/chromis.png") 
 pics4 <- readPNG("./pics/humbug.png")
 pics5 <- readPNG("./pics/lemon.png")
-ggplot(data2, aes(x = species, y = activity, color = treatment)) + geom_boxplot() + geom_jitter() + annotation_raster(pics1, 0.5, 1.5, 5, 15, interpolate = FALSE) + annotation_raster(pics2, 1.5, 2.5, 45, 55, interpolate = FALSE) + annotation_raster(pics3, 2.5, 3.5, 46, 56, interpolate = FALSE) + annotation_raster(pics4, 3.5, 4.5, 5, 15, interpolate = FALSE) + annotation_raster(pics5, 4.5, 5.5, 3, 13, interpolate = FALSE)
+pics6 <- readPNG("./pics/whitedams.png")
+ggplot(data2, aes(x = species, y = activity, color = treatment)) + geom_boxplot() + geom_jitter() + annotation_raster(pics1, 0.5, 1.5, 5, 15, interpolate = FALSE) + annotation_raster(pics2, 1.5, 2.5, 45, 55, interpolate = FALSE) + annotation_raster(pics3, 2.5, 3.5, 46, 56, interpolate = FALSE) + annotation_raster(pics4, 3.5, 4.5, 5, 15, interpolate = FALSE) + annotation_raster(pics5, 4.5, 5.5, 3, 13, interpolate = FALSE) + annotation_raster(pics6, 5.5, 6.5, 3, 13, interpolate = FALSE)
 ```
 
 Note the code chunk used to make the figure. It has a `fig.cap` argument. That means Rmarkdown knows it's a figure and it will allow you to create a figure reference call. In other words, we can refer to our Figure \@ref(fig:prettyfig) by referring to the label for the chunk. This will automatically make a legend for us too (assuming you add one in). The same concept applied to Tables but the legend goes above these.
 
 Now that you have the figure you may also want to write / save it as a separate file. Use `ggsave` function to save the figure(s) to your new `output/figures/`:
 
-```{r, savefig}
+```{r, savefig, echo=TRUE, eval = FALSE}
 # Use ggsave to save the figure
 getwd()
 ggsave('output/figures/activity_by_treatment_species.png',width = 10, height = 6)
@@ -215,16 +216,16 @@ ggsave('output/figures/activity_by_treatment_species.png',width = 10, height = 6
 
 >**Question 6**: Given that you have added `output/figures/` to your `.gitignore` file describe what you notice about what you see in *GitHub Desktop*. 
 
-```{r, don't know the change}
+```{r, echo=TRUE, eval = FALSE}
 ## Write your answer here
-#I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop*.  
+#I find that the `.gitignore` text file, which contains the path of the boxplot picture, is added into my *GitHub Desktop* and the figure disappear in my output/figure folder. 
 ```
 
 Last question for this task. I promise! It's important to think very carefully about what you track and ignore.
 
 >**Question 7**: Assume that you added the `pics/` folder to your working directory to plot pictures of each fish on your figure. Do you want to track the files in the pic/ folder on GitHub despite them being .png files? Explain your reasoning. 
 
-```{r, answer6}
+```{r, answer6, echo=TRUE, eval = FALSE}
 ## Add your answer here
 #No, because when I need to check each png file, I need to open each of them separately. It will become more tired to check each of them.
 ```
@@ -263,12 +264,9 @@ Once you have figured out how to create and solve conflicts it's time to update 
 **Task**: Provide details about the workflow (i.e., which files are used, when and why) and write a detailed description of the data file used. Include the details about what the column means and which data file someone should use. 
 
 Think about what you would need to know to make sure you can replicate a study. Provide these details so they are easy to find on the README.
-###what we should do in r.
 
 # **Task 8**
 There's not too much to do in this task on the coding front! You just need to create a *GitHub* issue and create a 'To Do' list on *GitHub* for you and your collaborator. 
-### what should we do?
-
 
 # **Task 9**
 Here, run some statistical tests to determine, for each species, whether the control vs high $CO^2$ treatments differ significantly from each other and in what direction. Provide the difference in means, their 95% confidence intervals, t-statistic, df and p-value. 
@@ -276,12 +274,62 @@ Here, run some statistical tests to determine, for each species, whether the con
 >**Stretch Task**: You can of course do this for each species seperately, but those who want a challenge, think about how you might use a loop or even some wrangling methods you have already learnt from the tidyverse to run these tests across all 6 species in a single block of code. If you're familiar with functions, you can even think about writing your own function! All these strategies will avoid having to copy and paste large chunks of code. If you're repeating anything, writing functions and loops are good ways to simplify.
 
 ```{r, stats, echo=TRUE, eval=TRUE}
-# Add your code here
+# acantho
+data3 <- data2 %>% filter(species == 'acantho') 
+data3c <- data3 %>% filter(treatment == "control")
+data3t <- data3 %>% filter(treatment == "CO2")
+test1 <- t.test(data3c$activity, data3t$activity)
+print(test1)
 
+#ambon
+data4 <- data2 %>% filter(species == 'ambon') 
+data4c <- data4 %>% filter(treatment == "control")
+data4t <- data4 %>% filter(treatment == "CO2")
+test2 <- t.test(data4c$activity, data4t$activity)
+print(test2)
+
+#chromis
+data5 <- data2 %>% filter(species == 'chromis') 
+data5c <- data5 %>% filter(treatment == "control")
+data5t <- data5 %>% filter(treatment == "CO2")
+test3 <- t.test(data5c$activity, data5t$activity)
+print(test3)
+
+#humbug
+data6 <- data2 %>% filter(species == 'humbug') 
+data6c <- data6 %>% filter(treatment == "control")
+data6t <- data6 %>% filter(treatment == "CO2")
+test4 <- t.test(data6c$activity, data6t$activity)
+print(test4)
+
+#lemon
+data7 <- data2 %>% filter(species == 'lemon') 
+data7c <- data7 %>% filter(treatment == "control")
+data7t <- data7 %>% filter(treatment == "CO2")
+test5 <- t.test(data7c$activity, data7t$activity)
+print(test5)
+
+#whitedams
+data8 <- data2 %>% filter(species == 'whitedams') 
+data8c <- data8%>% filter(treatment == "control")
+data8t <- data8 %>% filter(treatment == "CO2")
+test6 <- t.test(data8c$activity, data8t$activity)
+print(test6)
 ```
 
-```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "write a caption here"}
+```{r, table1, tab.cap = "t.test of each species"}
 # Using the resulting object created above, which should be a table with all the summary statistics, t, df and p-value for each species create a table. Note that there is a tab.cap argument in the chunk arguments. Write a caption here. 
+species <- c("acantho", "ambon", "chromis", "humbug", "lemon", "whitedams")
+p.value <- c(test1$p.value, test2$p.value, test3$p.value, test4$p.value, test5$p.value, test6$p.value)
+df <- c(test1$parameter, test2$parameter, test3$parameter, test4$parameter, test5$parameter, test6$parameter)
+t.statistic <- c(test1$statistic, test2$statistic, test3$statistic, test4$statistic, test5$statistic, test6$statistic)
+confi1 <- c(min(test1$conf.int), min(test2$conf.int), min(test3$conf.int), min(test4$conf.int), min(test5$conf.int), min(test6$conf.int))
+confi2<- c(max(test1$conf.int), max(test2$conf.int), max(test3$conf.int), max(test4$conf.int), max(test5$conf.int), max(test6$conf.int))
+difference.in.means <- c(test1$null.value, test2$null.value, test3$null.value, test4$null.value, test5$null.value, test6$null.value)
+
+result <- data.frame(species, p.value, df, t.statistic, confi1, confi2, difference.in.means)
+
+##ps: confi1 ~ confi2 is the 95% confidence interval
 ```
 
 Now that you have a table, you can reference it within a document. For example, you can make a call to Table \@ref(tab:table1) by referring to the name of the code chunk. When you knit the html it will create a hyperlink to your table and insert a legend above the table for you. How cool is that!?
@@ -299,7 +347,10 @@ Mean activity for `r "species name here"` in the control group was `r "add code 
 Now, using what you just learnt, describe what the null hypothesis being tested was and provide statistical evidence (t-statistic, df, and p-value) to support your conclusion about whether we can reject the null hypothesis. Again, make sure you use in-line code. Write you answer below:
 
 **Write your answer here**
-
+I would like to choose lemon fish.
+In this test, our hypothesis is that there is no significant difference between control and treatment group in lemon fish.
+The p-value of lemon is 0.071 in Table \@ref(tab:table1), and the t-statistic is -1.86.
+The p-value is bigger than 0.05, which means that there is no significant difference between control and treated group. And small t-statistic with 42 df also indicate that no significant differece.
 
 Re-analyse the data for a single species using permutations instead of a t-test. Do your results differ?
 
@@ -307,6 +358,7 @@ Re-analyse the data for a single species using permutations instead of a t-test.
 
 ```{r, stretch2, echo=TRUE, eval=FALSE}
 # Add your code here.
+
 ```
 
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
