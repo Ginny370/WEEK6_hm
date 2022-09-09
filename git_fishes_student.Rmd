@@ -65,7 +65,7 @@ Before moving on you might have noticed that the code block above has a name `an
 
 ```{r answer2, echo=TRUE, eval = FALSE}
 # Write your answer here
-#If we change echo = TRUE to echo = FALSE, it means that we want to have both code and result in our rmarkdown file.
+#If we change echo = TRUE to echo = FALSE, it means that we want to have code in our rmarkdown file. If echo = FALSE, we can not see code in rmarkdown.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -386,7 +386,7 @@ plot_tibble <- tibble(value = samp_dist,extreme = (abs(samp_dist) > abs(t_test_s
 ggplot(plot_tibble,aes(x=value,fill=extreme))+geom_histogram(bins=200)
 ```
 
-```{r}
+```{r, tibble}
 permutation_pvalue <- sum(plot_tibble$extreme)/n_reps
 tibble(permutation_pvalue,test5$p.value)
 ```
@@ -394,7 +394,7 @@ tibble(permutation_pvalue,test5$p.value)
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
 
 **Add your text and inline code chunks here**
-When we permutate our data, we find that there is no significant difference between original t-test and permutated t-test in p-value. So we can safely arrive at a conclusion that there is no significant difference between treantment in lemon.
+When we permutate our data, we find that there is no significant difference between original t-test and permutated t-test in p-value Tibble \@ref(tib:tibble1). So we can safely arrive at a conclusion that there is no significant difference between treantment in lemon.
 
 # **Task 10**
 
