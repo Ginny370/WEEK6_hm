@@ -229,7 +229,7 @@ Last question for this task. I promise! It's important to think very carefully a
 
 ```{r, answer6, echo=TRUE, eval = FALSE}
 ## Add your answer here
-#No, because when I need to check each png file, I need to open each of them separately. It will become more tired to check each of them.
+#No, because when I check each png file, I need to open each of them separately. It will become more tired to check each of them.
 ```
 
 # **Task 6**
