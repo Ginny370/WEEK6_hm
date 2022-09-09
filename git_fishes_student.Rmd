@@ -195,6 +195,8 @@ ggplot(data2, aes(x = treatment, y = activity, color = treatment)) + geom_boxplo
 
 ```{r, prettyfig, fig.align='center', fig.cap="boxpot with fishes", echo=TRUE, eval = FALSE}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
+install.packages("png")
+library(png)
 pics1 <- readPNG("./pics/acantho.png")
 pics2 <- readPNG("./pics/ambon.png")
 pics3 <- readPNG("./pics/chromis.png") 
