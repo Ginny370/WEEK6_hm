@@ -348,9 +348,9 @@ Now, using what you just learnt, describe what the null hypothesis being tested 
 
 **Write your answer here**
 I would like to choose lemon fish.
-In this test, our hypothesis is that there is no significant difference between control and treatment group in lemon fish.
+In this test, our hypothesis is that there is no significant difference in mean between control and treatment group in lemon fish.
 The p-value of lemon is 0.071 in Table \@ref(tab:table1), and the t-statistic is -1.86.
-The p-value is bigger than 0.05, which means that there is no significant difference between control and treated group. And small t-statistic with 42 df also indicate that no significant differece.
+The p-value is bigger than 0.05, which means that there is no significant difference of mean between control and treated group. And small t-statistic with 42 df also indicate that mean of control and treatment has no significant differece.
 
 Re-analyse the data for a single species using permutations instead of a t-test. Do your results differ?
 
@@ -394,7 +394,7 @@ tibble(permutation_pvalue,test5$p.value)
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
 
 **Add your text and inline code chunks here**
-When we permutate our data, we find that there is no significant difference between original t-test and permutated t-test in p-value Tibble \@ref(tib:tibble1). So we can safely arrive at a conclusion that there is no significant difference between treantment in lemon.
+When we permutate our data, we find that there is no significant difference between original t-test and permutated t-test in p-value Tibble \@ref(tib:tibble1). So we can safely arrive at a conclusion that there is no significant difference of mean between control and treantment in species lemon.
 
 # **Task 10**
 
