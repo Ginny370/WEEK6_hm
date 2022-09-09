@@ -325,7 +325,7 @@ df <- c(test1$parameter, test2$parameter, test3$parameter, test4$parameter, test
 t.statistic <- c(test1$statistic, test2$statistic, test3$statistic, test4$statistic, test5$statistic, test6$statistic)
 confi1 <- c(min(test1$conf.int), min(test2$conf.int), min(test3$conf.int), min(test4$conf.int), min(test5$conf.int), min(test6$conf.int))
 confi2<- c(max(test1$conf.int), max(test2$conf.int), max(test3$conf.int), max(test4$conf.int), max(test5$conf.int), max(test6$conf.int))
-difference.in.means <- c(test1$null.value, test2$null.value, test3$null.value, test4$null.value, test5$null.value, test6$null.value)
+difference.in.means <- c(abs(max(test1$estimate)-min(test1$estimate)), abs(max(test2$estimate)-min(test2$estimate)), abs(max(test3$estimate)-min(test3$estimate)), abs(max(test4$estimate)-min(test4$estimate)), abs(max(test5$estimate)-min(test5$estimate)), abs(max(test6$estimate)-min(test6$estimate)))
 
 result <- data.frame(species, p.value, df, t.statistic, confi1, confi2, difference.in.means)
 
@@ -342,7 +342,7 @@ Moving forward on that you can also add in an object and whatever that objects v
 
 This is all **VERY** cool because that means if your code or data change than you can update your entire report very fast. It's also 100% reproducible. We know exactly where every single value in your report comes from. This is all pretty helpful when you want to check your code and report side-by-side. Now that you have a bit more detail fill in the following:
 
-Mean activity for `r "species name here"` in the control group was `r "add code to place mean for control"` (s / min) compared to the OA treatment group, which was `r "mean for acidificaton treatment"` (s / min). The difference between control and OA treatment means was `r "code mean difference bw treatment"` (s / min) (95% CI: `r "code for lower CI"` to `r "code for upper CI"`). 
+Mean activity for `r "lemon"` in the control group was `r "test5$estimate[mean of x]"` (s / min) compared to the OA treatment group, which was `r "test5$estimate[mean of y]"` (s / min). The difference between control and OA treatment means was `r "(test5$estimate[mean of y]-test5$estimate[mean of x])"` (s / min) (95% CI: `r "min(test5$conf.int)"` to `r "max(test5$conf.int)"`). 
 
 Now, using what you just learnt, describe what the null hypothesis being tested was and provide statistical evidence (t-statistic, df, and p-value) to support your conclusion about whether we can reject the null hypothesis. Again, make sure you use in-line code. Write you answer below:
 
@@ -358,12 +358,43 @@ Re-analyse the data for a single species using permutations instead of a t-test.
 
 ```{r, stretch2, echo=TRUE, eval=FALSE}
 # Add your code here.
+## permutate lemon
+permutate_lemon <- data7
+permutate_lemon$treatment <- permutate_lemon$treatment[sample(length(data7$treatment))]
+head(permutate_lemon)
 
+## generate t-test
+### run our loop and set in loop
+n_reps <- 10000
+### Create a vector/list to store the result
+samp_dist <- rep(1,n_reps)
+###Set a loop that sums the number of reps
+for (i in 1:n_reps)
+{
+    # Random assignment to treatment
+    permuted_data <- data7 %>% mutate(treatment = treatment[sample(row_number())])
+    # The results of t-test
+    permuted_test <- t.test(permuted_data$activity[which(permuted_data$treatment=="CO2")],permuted_data$activity[which(permuted_data$treatment=="control")])
+### Loop and sum the results of t-test statistic 
+    samp_dist[i] <- permuted_test$statistic
+}
+
+### Set a tibble of extreme fraction
+t_test_statistic <- test5$statistic
+plot_tibble <- tibble(value = samp_dist,extreme = (abs(samp_dist) > abs(t_test_statistic)))
+### Draw a histogram
+ggplot(plot_tibble,aes(x=value,fill=extreme))+geom_histogram(bins=200)
+```
+
+```{r}
+permutation_pvalue <- sum(plot_tibble$extreme)/n_reps
+tibble(permutation_pvalue,test5$p.value)
 ```
 
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
 
 **Add your text and inline code chunks here**
+When we permutate our data, we find that there is no significant difference between original t-test and permutated t-test in p-value. So we can safely arrive at a conclusion that there is no significant difference between treantment in lemon.
 
 # **Task 10**
 
